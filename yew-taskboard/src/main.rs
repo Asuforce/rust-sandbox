@@ -41,7 +41,10 @@ impl Component for Model {
                     Task { name: "Task 2".to_string(), assignee: "🐶".to_string(), mandays: 2, status: 1},
                     Task { name: "Task 3".to_string(), assignee: "🐭".to_string(), mandays: 1, status: 2},
                     Task { name: "Task 4".to_string(), assignee: "🐹".to_string(), mandays: 3, status: 3},
-                ]
+                ],
+                new_task_name: "".to_string(),
+                new_task_assignee: "".to_string(),
+                new_task_mandays: 0,
             }
         }
     }
