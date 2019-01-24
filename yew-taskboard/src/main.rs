@@ -8,6 +8,9 @@ struct Model {
 
 struct State {
     tasks: Vec<Task>,
+    new_task_name: String,
+    new_task_assignee: String,
+    new_task_mandays: String,
 }
 
 struct Task {
