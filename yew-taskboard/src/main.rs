@@ -27,7 +27,7 @@ impl Component for Model {
                 tasks: vec! [
                     Task { name: "Task 1".to_string(), assignee: "🐱".to_string(), mandays: 3, status: 1},
                     Task { name: "Task 2".to_string(), assignee: "🐶".to_string(), mandays: 2, status: 1},
-                    Task { name: "Task 3".to_string(), assignee: "🐭".to_string(), mandays: 1, status: 2},
+                    Task { name: "Task 3".to_string(), assignee: "🐭".to_string(), mandays: 1, status: 1},
                     Task { name: "Task 4".to_string(), assignee: "🐹".to_string(), mandays: 3, status: 3},
                 ]
             }
@@ -62,6 +62,28 @@ fn view_column(status: u32, status_text: &str) -> Html<Model> {
                 <span class="tag",>{ status_text }</span>
                 <span class="tag is-dark",>{ 0 }</span>
             </div>
+        </div>
+    }
+}
+
+fn view_task((idx, task): (usize, &Task)) -> Html<Model> {
+    html! {
+        <div class="card",>
+            <div class="card-content",>
+                { &task.name }
+            </div>
+            <footer class="card-footer",>
+                <div class="card-footer-item",>
+                    { &task.assignee }
+                </div>
+                <div class="card-footer-item",>
+                    { format!("{} 人日", &task.mandays) }
+                </div>
+            </footer>
+            <footer class="card-footer",>
+                <a class="card-footer-item",>{ "◀︎" }</a>
+                <a class="card-footer-item",>{ "▶︎" }</a>
+            </footer>
         </div>
     }
 }
