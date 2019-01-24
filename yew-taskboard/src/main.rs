@@ -17,8 +17,13 @@ struct Task {
     status: u32,
 }
 
+enum Msg {
+    IncreaseStatus(usize),
+    DecreaseStatus(usize),
+}
+
 impl Component for Model {
-    type Message = ();
+    type Message = Msg;
     type Properties = ();
 
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
@@ -34,8 +39,26 @@ impl Component for Model {
         }
     }
 
-    fn update (&mut self, _: Self::Message) -> ShouldRender {
-        false
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::IncreaseStatus(idx) => {
+                self.state.increase_status(idx);
+            }
+            Msg::DecreaseStatus(idx) => {
+                self.state.decrease_status(idx);
+            }
+        }
+        true
+    }
+}
+
+impl State {
+    fn increase_status(&mut self, idx: usize) {
+        self.tasks.get_mut(idx).filter(|e| e.status < 3).map(|e| e.status= e.status + 1);
+    }
+
+    fn decrease_status(&mut self, idx: usize) {
+        self.tasks.get_mut(idx).filter(|e| e.status > 1).map(|e| e.status= e.status - 1);
     }
 }
 
@@ -82,8 +105,8 @@ fn view_task((idx, task): (usize, &Task)) -> Html<Model> {
                 </div>
             </footer>
             <footer class="card-footer",>
-                <a class="card-footer-item",>{ "◀︎" }</a>
-                <a class="card-footer-item",>{ "▶︎" }</a>
+                <a class="card-footer-item", onclick=|_| Msg::DecreaseStatus(idx),>{ "◀︎" }</a>
+                <a class="card-footer-item", onclick=|_| Msg::IncreaseStatus(idx),>{ "▶︎" }</a>
             </footer>
         </div>
     }
