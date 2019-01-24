@@ -2,7 +2,20 @@
 extern crate yew;
 use yew::prelude::*;
 
-struct Model {}
+struct Model {
+    state: State,
+}
+
+struct State {
+    tasks: Vec<Task>,
+}
+
+struct Task {
+    name: String,
+    assignee: String,
+    mandays: u32,
+    status: u32,
+}
 
 impl Component for Model {
     type Message = ();
