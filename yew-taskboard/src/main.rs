@@ -23,6 +23,10 @@ struct Task {
 enum Msg {
     IncreaseStatus(usize),
     DecreaseStatus(usize),
+    UpdateNewTaskName(String),
+    UpdateNewTaskAssignee(yew::html::ChangeData),
+    UpdateNewTaskMandays(String),
+    NewTask,
 }
 
 impl Component for Model {
