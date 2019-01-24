@@ -36,16 +36,36 @@ impl Component for Model {
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
         Model {
             state: State {
-                tasks: vec! [
-                    Task { name: "Task 1".to_string(), assignee: "🐱".to_string(), mandays: 3, status: 1},
-                    Task { name: "Task 2".to_string(), assignee: "🐶".to_string(), mandays: 2, status: 1},
-                    Task { name: "Task 3".to_string(), assignee: "🐭".to_string(), mandays: 1, status: 2},
-                    Task { name: "Task 4".to_string(), assignee: "🐹".to_string(), mandays: 3, status: 3},
+                tasks: vec![
+                    Task {
+                        name: "Task 1".to_string(),
+                        assignee: "🐱".to_string(),
+                        mandays: 3,
+                        status: 1,
+                    },
+                    Task {
+                        name: "Task 2".to_string(),
+                        assignee: "🐶".to_string(),
+                        mandays: 2,
+                        status: 1,
+                    },
+                    Task {
+                        name: "Task 3".to_string(),
+                        assignee: "🐭".to_string(),
+                        mandays: 1,
+                        status: 2,
+                    },
+                    Task {
+                        name: "Task 4".to_string(),
+                        assignee: "🐹".to_string(),
+                        mandays: 3,
+                        status: 3,
+                    },
                 ],
                 new_task_name: "".to_string(),
                 new_task_assignee: "".to_string(),
                 new_task_mandays: 0,
-            }
+            },
         }
     }
 
@@ -64,11 +84,17 @@ impl Component for Model {
 
 impl State {
     fn increase_status(&mut self, idx: usize) {
-        self.tasks.get_mut(idx).filter(|e| e.status < 3).map(|e| e.status= e.status + 1);
+        self.tasks
+            .get_mut(idx)
+            .filter(|e| e.status < 3)
+            .map(|e| e.status = e.status + 1);
     }
 
     fn decrease_status(&mut self, idx: usize) {
-        self.tasks.get_mut(idx).filter(|e| e.status > 1).map(|e| e.status= e.status - 1);
+        self.tasks
+            .get_mut(idx)
+            .filter(|e| e.status > 1)
+            .map(|e| e.status = e.status - 1);
     }
 }
 
@@ -137,7 +163,6 @@ fn view_header(state: &State) -> Html<Model> {
         </div>
     }
 }
-
 
 fn main() {
     yew::initialize();
