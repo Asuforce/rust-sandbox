@@ -112,6 +112,23 @@ fn view_task((idx, task): (usize, &Task)) -> Html<Model> {
     }
 }
 
+fn view_header(state: &State) -> Html<Model> {
+    html! {
+        <div class="container",>
+            <input value=&state.new_task_name, oninput=|e| Msg::UpdateNewTaskName(e.value),/>
+            <select value=&state.new_task_assignee, onchange=|e| Msg::UpdateNewTaskAssignee(e),>
+                <option value="🐱",>{ "🐱" }</option>
+                <option value="🐶",>{ "🐶" }</option>
+                <option value="🐹",>{ "🐹" }</option>
+            </select>
+            <input value=&state.new_task_mandays, oninput=|e| Msg::UpdateNewTaskMandays(e.value),/>
+            <button onclick=|_| Msg::NewTask,>{ "追加" }</button>
+            <hr/>
+        </div>
+    }
+}
+
+
 fn main() {
     yew::initialize();
     App::<Model>::new().mount_to_body();
