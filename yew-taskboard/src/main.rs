@@ -1,5 +1,6 @@
 #[macro_use]
 extern crate yew;
+use std::str::FromStr;
 use yew::prelude::*;
 
 struct Model {
@@ -10,7 +11,7 @@ struct State {
     tasks: Vec<Task>,
     new_task_name: String,
     new_task_assignee: String,
-    new_task_mandays: String,
+    new_task_mandays: u32,
 }
 
 struct Task {
@@ -71,6 +72,26 @@ impl Component for Model {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
+            Msg::UpdateNewTaskName(val) => {
+                self.state.new_task_name = val;
+            }
+            Msg::UpdateNewTaskAssignee(val) => {
+                if let yew::html::ChangeData::Select(v) = &val {
+                    self.state.new_task_assignee = v.raw_value();
+                }
+            }
+            Msg::UpdateNewTaskMandays(val) => {
+                if let Ok(v) = u32::from_str(&val) {
+                    self.state.new_task_mandays = v;
+                }
+            }
+            Msg::NewTask => {
+                self.state.add_new_task(
+                    self.state.new_task_name.clone(),
+                    self.state.new_task_assignee.clone(),
+                    self.state.new_task_mandays,
+                );
+            }
             Msg::IncreaseStatus(idx) => {
                 self.state.increase_status(idx);
             }
@@ -96,12 +117,22 @@ impl State {
             .filter(|e| e.status > 1)
             .map(|e| e.status = e.status - 1);
     }
+
+    fn add_new_task(&mut self, name: String, assignee: String, mandays: u32) {
+        self.tasks.push(Task {
+            name,
+            assignee,
+            mandays,
+            status: 1,
+        });
+    }
 }
 
 impl Renderable<Model> for Model {
     fn view(&self) -> Html<Self> {
         html! {
             <section class="section", id="board",>
+                { view_header(&self.state) }
                 <div class="container",>
                     <div class="columns",>
                         { view_column(1, "未対応", &self.state.tasks) }
