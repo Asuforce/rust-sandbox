@@ -27,7 +27,7 @@ impl Component for Model {
                 tasks: vec! [
                     Task { name: "Task 1".to_string(), assignee: "🐱".to_string(), mandays: 3, status: 1},
                     Task { name: "Task 2".to_string(), assignee: "🐶".to_string(), mandays: 2, status: 1},
-                    Task { name: "Task 3".to_string(), assignee: "🐭".to_string(), mandays: 1, status: 1},
+                    Task { name: "Task 3".to_string(), assignee: "🐭".to_string(), mandays: 1, status: 2},
                     Task { name: "Task 4".to_string(), assignee: "🐹".to_string(), mandays: 3, status: 3},
                 ]
             }
@@ -45,9 +45,9 @@ impl Renderable<Model> for Model {
             <section class="section", id="board",>
                 <div class="container",>
                     <div class="columns",>
-                        { view_column(1, "未対応") }
-                        { view_column(2, "対応中") }
-                        { view_column(3, "完了") }
+                        { view_column(1, "未対応", &self.state.tasks) }
+                        { view_column(2, "対応中", &self.state.tasks) }
+                        { view_column(3, "完了", &self.state.tasks) }
                     </div>
                 </div>
             </section>
@@ -55,13 +55,14 @@ impl Renderable<Model> for Model {
     }
 }
 
-fn view_column(status: u32, status_text: &str) -> Html<Model> {
+fn view_column(status: u32, status_text: &str, tasks: &Vec<Task>) -> Html<Model> {
     html! {
         <div class=format!("column status-{}", status),>
             <div class="tags has-addons",>
                 <span class="tag",>{ status_text }</span>
-                <span class="tag is-dark",>{ 0 }</span>
+                <span class="tag is-dark",>{ tasks.iter().filter(|e| e.status== status).count() }</span>
             </div>
+            { for tasks.iter().enumerate().filter(|e| e.1.status == status).map(view_task) }
         </div>
     }
 }
