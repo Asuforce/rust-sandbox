@@ -186,6 +186,7 @@ fn view_header(state: &State) -> Html<Model> {
             <select value=&state.new_task_assignee, onchange=|e| Msg::UpdateNewTaskAssignee(e),>
                 <option value="🐱",>{ "🐱" }</option>
                 <option value="🐶",>{ "🐶" }</option>
+                <option value="🐭",>{ "🐭" }</option>
                 <option value="🐹",>{ "🐹" }</option>
             </select>
             <input value=&state.new_task_mandays, oninput=|e| Msg::UpdateNewTaskMandays(e.value),/>
